@@ -1,16 +1,14 @@
 // App.js
-// useEffect と useState 関数を React.js からインポートしています。
 import myEpicNft from "./utils/MyEpicNFT.json";
 import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
 import "./styles/App.css";
 // Constantsを宣言する: constとは値書き換えを禁止した変数を宣言する方法です。
 const App = () => {
-  //ユーザーのウォレットアドレスを格納するために使用する状態変数を定義します。
+  //ユーザーのウォレットアドレスの変数
   const [currentAccount, setCurrentAccount] = useState("");
-  const [jankenResult, setJankenResult] = useState("");
   
-  //ユーザーが認証可能なウォレットアドレスを持っているか確認します。
+  //ユーザーが認証可能なウォレットアドレスを持っているかの確認
   const checkIfWalletIsConnected = async () => {
 
     const { ethereum } = window;
@@ -20,7 +18,6 @@ const App = () => {
     } else {
       console.log("We have the ethereum object", ethereum);
     }
-    //ユーザーが認証可能なウォレットアドレスを持っている場合は、ユーザーに対してウォレットへのアクセス許可を求める。許可されれば、ユーザーの最初のウォレットアドレスをaccounts に格納する。
     const accounts = await ethereum.request({ method: "eth_accounts" });
 
     if (accounts.length !== 0) {
@@ -69,7 +66,7 @@ const App = () => {
     }
   };
 
-  //connectWallet メソッドを実装します。
+  //
   const connectWallet = async () => {
     try {
       const { ethereum } = window;
@@ -77,8 +74,7 @@ const App = () => {
         alert("Get MetaMask!");
         return;
       }
-      //ウォレットアドレスに対してアクセスをリクエストしています。
-       
+      //アクセスのリクエスト
       const accounts = await ethereum.request({
         method: "eth_requestAccounts",
       });
@@ -119,7 +115,7 @@ const App = () => {
     }
   };
 
-  // renderNotConnectedContainer メソッドを定義します。
+  // renderNotConnectedContainer 
   const renderNotConnectedContainer = () => (
     <button
       onClick={connectWallet}
@@ -128,8 +124,7 @@ const App = () => {
       Connect to Wallet
     </button>
   );
-  //ページがロードされたときに useEffect()内の関数が呼び出されます。
-   
+  //
   useEffect(() => {
     checkIfWalletIsConnected();
   }, []);
@@ -140,9 +135,6 @@ const App = () => {
         <div className="header-container">
           <p className="header gradient-text">セカイを変えるじゃんけん</p>
           <p className="sub-text">じゃんけんに勝利してNFTを手に入れよう</p>
-          {/*条件付きレンダリングを追加しました
-          // すでに接続されている場合は、
-          // Connect to Walletを表示しないようにします。*/}
           {currentAccount === "" ? (
             renderNotConnectedContainer()
           ) : (
